@@ -1,0 +1,21 @@
+name: Test script
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+jobs:
+  install_ps_docker:
+    strategy:
+      matrix:
+        os: ["ubuntu:latest", "oraclelinux:9"]
+    runs-on: ubuntu-latest
+    container: 
+      image: ${{ matrix.os }}
+      volumes:
+        - ${{ github.workspace }}:/tmp/install
+    steps:
+     - name: Checkout code
+       uses: actions/checkout@v3
+     - name: Run docker
+       run: bash /tmp/install/pg-easy-deploy.sh ${{ matrix.commands }}
