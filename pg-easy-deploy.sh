@@ -14,7 +14,7 @@ set -o pipefail
 declare LOGFILE=""
 declare TABLE="albums"
 declare DATABASE="supersecure"
-
+declare KEYLOCATION="/var/lib/postgresql/pg_tde_test_keyring.per"
 #######################################
 # Show script usage info.       
 #######################################
@@ -122,12 +122,14 @@ database_and_table_create() {
   if [ "$1" == "deb" ]
   then
     sudo systemctl restart postgresql
+    KEYLOCATION="/var/lib/postgresql/pg_tde_test_keyring.per"
   else
     sudo systemctl restart postgresql-17
+    KEYLOCATION="/var/lib/pgsql/pg_tde_test_keyring.per"
   fi	  
   sudo -u postgres psql -U postgres -c "CREATE DATABASE $DATABASE WITH OWNER=postgres;"
   sudo -u postgres psql -U postgres -d $DATABASE -c "CREATE EXTENSION pg_tde;"
-  sudo -u postgres psql -U postgres -d $DATABASE -c "SELECT pg_tde_add_key_provider_file('file-vault','/var/lib/pgsql/pg_tde_test_keyring.per');"
+  sudo -u postgres psql -U postgres -d $DATABASE -c "SELECT pg_tde_add_key_provider_file('file-vault','$KEYLOCATION');"
   sudo -u postgres psql -U postgres -d $DATABASE -c "SELECT pg_tde_set_principal_key('test-db-master-key','file-vault');"
   sudo -u postgres psql -U postgres -d $DATABASE -c "ALTER DATABASE $DATABASE SET default_table_access_method='tde_heap';"
   sudo -u postgres psql -U postgres -c "SELECT pg_reload_conf();"
