@@ -1,0 +1,19 @@
+name: Test script
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+jobs:
+  format:
+    name: Install and set up
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    
+    steps:
+     - name: Checkout code
+       uses: actions/checkout@v3
+     - name: Update runner
+       run: sudo apt update -y && sudo apt upgrade -y
+     - name: Run script
+       run: ./pg-easy-deploy.sh 

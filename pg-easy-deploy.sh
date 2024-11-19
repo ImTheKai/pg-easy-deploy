@@ -129,9 +129,9 @@ database_and_table_create() {
   sudo -u postgres psql -U postgres -d $DATABASE -c "CREATE EXTENSION pg_tde;"
   sudo -u postgres psql -U postgres -d $DATABASE -c "SELECT pg_tde_add_key_provider_file('file-vault','/tmp/pg_tde_test_keyring.per');"
   sudo -u postgres psql -U postgres -d $DATABASE -c "SELECT pg_tde_set_principal_key('test-db-master-key','file-vault');"
-  sudo -u postgres psql -U postgres -d $DATABASE -c "ALTER SYSTEM SET default_table_access_method='tde_heap';"
+  sudo -u postgres psql -U postgres -d $DATABASE -c "ALTER DATABASE $DATABASE SET default_table_access_method='tde_heap';"
   sudo -u postgres psql -U postgres -c "SELECT pg_reload_conf();"
-  sudo -u postgres psql -U postgres -d $DATABASE -c "CREATE TABLE $TABLE (album_id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY, artist_id INTEGER, title TEXT NOT NULL, released DATE NOT NULL) USING tde_heap"
+  sudo -u postgres psql -U postgres -d $DATABASE -c "CREATE TABLE $TABLE (album_id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY, artist_id INTEGER, title TEXT NOT NULL, released DATE NOT NULL)"
   sudo -u postgres psql -U postgres -d $DATABASE -c "SELECT pg_tde_is_encrypted('albums');"
 }
 
