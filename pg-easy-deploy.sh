@@ -127,7 +127,7 @@ database_and_table_create() {
   fi	  
   sudo -u postgres psql -U postgres -c "CREATE DATABASE $DATABASE WITH OWNER=postgres;"
   sudo -u postgres psql -U postgres -d $DATABASE -c "CREATE EXTENSION pg_tde;"
-  sudo -u postgres psql -U postgres -d $DATABASE -c "SELECT pg_tde_add_key_provider_file('file-vault','/tmp/pg_tde_test_keyring.per');"
+  sudo -u postgres psql -U postgres -d $DATABASE -c "SELECT pg_tde_add_key_provider_file('file-vault','/var/lib/pgsql/pg_tde_test_keyring.per');"
   sudo -u postgres psql -U postgres -d $DATABASE -c "SELECT pg_tde_set_principal_key('test-db-master-key','file-vault');"
   sudo -u postgres psql -U postgres -d $DATABASE -c "ALTER DATABASE $DATABASE SET default_table_access_method='tde_heap';"
   sudo -u postgres psql -U postgres -c "SELECT pg_reload_conf();"
