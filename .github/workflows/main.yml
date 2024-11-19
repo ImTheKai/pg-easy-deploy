@@ -17,5 +17,7 @@ jobs:
     steps:
      - name: Checkout code
        uses: actions/checkout@v3
+     - name: Install sudo package
+       run: apt update && apt install sudo
      - name: Run docker
-       run: bash /tmp/install/pg-easy-deploy.sh ${{ matrix.commands }}
+       run: bash /tmp/install/pg-easy-deploy.sh 
