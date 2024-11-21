@@ -143,8 +143,8 @@ if [[ -f /etc/redhat-release ]] || [[ -f /etc/system-release ]]; then
   # These are the same installation steps as you will find them here: https://percona.github.io/pg_tde/main/yum.html
   sudo dnf module disable postgresql llvm-toolset
   sudo yum -y install https://repo.percona.com/yum/percona-release-latest.noarch.rpm
-  sudo percona-release setup ppg-17 -y
   sudo percona-release enable ppg-17.0 experimental -y
+  sudo percona-release enable ppg-17.0 testing -y
   sudo dnf config-manager --set-enabled ol9_codeready_builder 
   sudo yum -y install percona-postgresql-client-common percona-postgresql-common percona-postgresql-server-dev-all percona-postgresql17 percona-postgresql17-contrib percona-postgresql17-devel percona-postgresql17-libs
   sudo yum -y install percona-pg_tde_17
@@ -156,8 +156,8 @@ elif [[ -f /etc/debian_version ]]; then
   sudo apt-get install -y wget gnupg2 curl lsb-release
   sudo wget https://repo.percona.com/apt/percona-release_latest.generic_all.deb
   sudo dpkg -i percona-release_latest.generic_all.deb
-  sudo percona-release setup ppg-17
-  sudo percona-release enable ppg-17.0 experimental
+  sudo percona-release enable ppg-17.0 experimental -y
+  sudo percona-release enable ppg-17.0 testing -y
   sudo apt-get update
   sudo apt-get install -y percona-postgresql-17 percona-postgresql-contrib percona-postgresql-server-dev-all
   sudo apt-get install percona-postgresql-17-pg-tde
